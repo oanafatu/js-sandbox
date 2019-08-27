@@ -4,7 +4,46 @@ function Book (title, author, isbn) {
   this.isbn = isbn;
 }
 
-function UI(){
+function UI() {
+}
+
+function Store() {
+}
+
+Store.prototype.getBooks = function (){
+  let books = [];
+  if (localStorage.getItem('books') !==null ){
+    books = JSON.parse(localStorage.getItem('books'))
+  }
+  return books;
+}
+
+Store.prototype.addBook = function (book){
+  const store = new Store()
+  const books = store.getBooks();
+  books.push(book);
+  localStorage.setItem('books', JSON.stringify(books))
+ 
+}
+
+Store.prototype.removeBook = function (isbn){
+  const store = new Store()
+  const books = store.getBooks();
+  books.forEach( (book,index) => {
+    if (book.isbn === isbn) {
+      books.splice(index, 1)
+    }
+  })
+  localStorage.setItem('books', JSON.stringify(books))
+}
+
+Store.prototype.displayBooks = function () {
+  const store = new Store()
+  const ui = new UI()
+  const books = store.getBooks();
+  books.forEach (book => {
+    ui.addBookToList(book)
+  })
 }
 
 UI.prototype.addBookToList = function (book) {
@@ -40,12 +79,14 @@ UI.prototype.showAlert = function (message, className) {
 }
 
 UI.prototype.deleteBook = function (target){
-
-  if(target.className === 'delete') {
-    target.parentElement.parentElement.remove();
-  }
-
+  
+  target.parentElement.parentElement.remove();  
 }
+
+document.addEventListener('DOMContentLoaded', ()=>{
+  const store = new Store();
+  store.displayBooks();
+})
 
 document.getElementById('book-form').addEventListener('submit', (e)=>{
 
@@ -54,13 +95,14 @@ document.getElementById('book-form').addEventListener('submit', (e)=>{
         isbn = document.getElementById('isbn').value;
 
   const book = new Book(title, author, isbn);
-
   const ui = new UI();
+  const store = new Store();
 
   if (title === '' || author === '' || isbn === '') {
     ui.showAlert('Please fill in all fields', 'error');
   } else {
     ui.addBookToList(book);
+    store.addBook(book);
     ui.showAlert('Book was added!', 'success')
     ui.clearFields();
   };
@@ -71,8 +113,14 @@ document.getElementById('book-form').addEventListener('submit', (e)=>{
 document.getElementById('book-list').addEventListener('click', (e)=> {
   
   const ui = new UI();
-  ui.deleteBook(e.target);
-  ui.showAlert('Book was deleted', 'success')
+  const store = new Store();
+
+  if(e.target.className === 'delete') {
+    ui.deleteBook(e.target);
+    store.removeBook(e.target.parentElement.previousElementSibling.textContent)
+    ui.showAlert('Book was deleted', 'success')
+  }
+ 
   e.preventDefault();
 })
 
