@@ -10,3 +10,6 @@ https://oanafatu.github.io/js-sandbox/Loan-Calculator/index.html
 
 # Number-Guesser: 
 https://oanafatu.github.io/js-sandbox/Number-Guesser/index.html
+
+# Book store: 
+https://oanafatu.github.io/js-sandbox/book-store/index.html
