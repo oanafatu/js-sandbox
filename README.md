@@ -7,3 +7,6 @@ https://oanafatu.github.io/js-sandbox/Task-List/index.html
 
 # Loan-Calculator: 
 https://oanafatu.github.io/js-sandbox/Loan-Calculator/index.html
+
+# Number-Guesser: 
+https://oanafatu.github.io/js-sandbox/Number-Guesser/index.html
