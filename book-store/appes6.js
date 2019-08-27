@@ -37,10 +37,8 @@ class UI {
 
   deleteBook(target) {
 
-    if(target.className === 'delete') {
-      target.parentElement.parentElement.remove();
-    }
-    ui.showAlert('Book was deleted', 'success')
+    target.parentElement.parentElement.remove();
+  
   }
 
   clearFields() {
@@ -48,7 +46,52 @@ class UI {
     document.getElementById('author').value = '';
     document.getElementById('isbn').value = '';
   }
+};
+
+class Store {
+
+  static getBooks() {
+    let books;
+    if (localStorage.getItem('books') === null) {
+      books = [];
+    } else {
+      books = JSON.parse(localStorage.getItem('books'))
+    }
+
+    return books;
+  }
+
+  static displayBooks() {
+
+    const books = Store.getBooks();
+    books.forEach( (book)=> {
+      const ui = new UI();
+      ui.addBookToList(book);
+    })
+  }
+
+  static addBook(book) {
+
+    const books = Store.getBooks();
+    books.push(book);
+    localStorage.setItem('books', JSON.stringify(books))
+  }
+
+  static removeBook(isbn) {
+
+    const books = Store.getBooks();
+    books.forEach( (book, index)=> {
+      
+      if (book.isbn === isbn) {
+        books.splice(index, 1);
+      }
+    })
+
+    localStorage.setItem('books', JSON.stringify(books))
+  }
 }
+
+document.addEventListener('DOMContentLoaded', Store.displayBooks);
 
 document.getElementById('book-form').addEventListener('submit', (e)=>{
 
@@ -64,6 +107,7 @@ document.getElementById('book-form').addEventListener('submit', (e)=>{
     ui.showAlert('Please fill in all fields', 'error');
   } else {
     ui.addBookToList(book);
+    Store.addBook(book);
     ui.showAlert('Book was added!', 'success')
     ui.clearFields();
   };
@@ -74,7 +118,12 @@ document.getElementById('book-form').addEventListener('submit', (e)=>{
 document.getElementById('book-list').addEventListener('click', (e)=> {
   
   const ui = new UI();
-  ui.deleteBook(e.target);
+
+  if(e.target.className === 'delete') {
+    ui.deleteBook(e.target);
+    ui.showAlert('Book was deleted', 'success')
+    Store.removeBook(e.target.parentElement.previousElementSibling.textContent);
+  }
   
   e.preventDefault();
 })
