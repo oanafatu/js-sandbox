@@ -13,3 +13,6 @@ https://oanafatu.github.io/js-sandbox/Number-Guesser/index.html
 
 # Book store: 
 https://oanafatu.github.io/js-sandbox/book-store/index.html
+
+# Chuck Norris Joke Generator
+https://oanafatu.github.io/js-sandbox/ChuckNorris-jokes/index.html
