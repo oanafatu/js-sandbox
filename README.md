@@ -16,3 +16,6 @@ https://oanafatu.github.io/js-sandbox/book-store/index.html
 
 # Chuck Norris Joke Generator
 https://oanafatu.github.io/js-sandbox/ChuckNorris-jokes/index.html
+
+# GitHub Finder
+https://oanafatu.github.io/js-sandbox/GitHub-Finder/index.html
