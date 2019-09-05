@@ -3,11 +3,7 @@ document.getElementById('button1').addEventListener('click', getText);
 function getText(){
   fetch('test.txt')
     .then(res => res.text())
-    .then(data => {
-     
-      document.getElementById('output').innerHTML = data;
-    }
-      )
+    .then(data => document.getElementById('output').innerHTML = data)
     .catch(err => console.log(err))
 }
 
